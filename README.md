@@ -17,7 +17,6 @@ Currently supports only portrait orientation.
         barGraphView.setBarData(createTestData());
     }
          
-         #### Creating dummy data bodel
     private List<BarData> createTestData() {
 
         List<BarData> list = new ArrayList<>();
