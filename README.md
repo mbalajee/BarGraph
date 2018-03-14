@@ -1,6 +1,6 @@
 # BarGraph
 
-Currently supports only portrait orientation.
+Currently supports only portrait orientation.  Download the aar file from repository and add it to your project.
 
 ### XML
 
