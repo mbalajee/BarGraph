@@ -15,6 +15,9 @@ Currently supports only portrait orientation.  Download the aar file from reposi
     private void setupBarGraph() {
         BarGraphView barGraphView = findViewById(R.id.listGraph);
         barGraphView.setBarData(createTestData());
+        
+        // Animation customized value
+        barGraphView.setAnimateDuration(1000); // Default is 700ms
     }
          
     private List<BarData> createTestData() {
