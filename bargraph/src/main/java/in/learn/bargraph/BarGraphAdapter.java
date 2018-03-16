@@ -1,13 +1,17 @@
 package in.learn.bargraph;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,13 +24,13 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
 
     private Context context;
     private List<BarData> listData;
-    static private int MAX_BAR_HEIGHT = 0;
+    static private int ANIMATABLE_HEIGHT = 0;
 
-
-    public BarGraphAdapter(Context context, List<BarData> listData, int maxBarHeight) {
+    BarGraphAdapter(Context context, List<BarData> listData, int maxBarHeight) {
         this.listData = listData;
         this.context = context;
-        MAX_BAR_HEIGHT = maxBarHeight;
+        ANIMATABLE_HEIGHT = (maxBarHeight - context.getResources().getDimensionPixelOffset(R.dimen.dp30) * 2) - 15;
+        // +15 -> to avoid hr text from truncation
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,20 +47,21 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
             date = itemView.findViewById(R.id.textViewDate);
         }
 
-        void bind(BarData data, int heightBar) {
+        @SuppressLint("DefaultLocale")
+        void bind(BarData data) {
 
             index.setText(String.format("%d", data.getIndex()));
             hours.setText(data.getFormattedHours());
             date.setText(data.getDate());
 
             // Set bar height
+            int barHeight = data.getHeight(ANIMATABLE_HEIGHT);
             ViewGroup.LayoutParams layoutParams = emptyView.getLayoutParams();
-            layoutParams.height = data.getHeight(heightBar) - (index.getMeasuredHeight() + date.getMeasuredHeight() + 20);
+            layoutParams.height = barHeight;
             emptyView.setLayoutParams(layoutParams);
 
             // Set bar color
             hours.setBackgroundColor(data.getColor());
-
         }
 
     }
@@ -71,8 +76,8 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BarData data = listData.get(position);
-        holder.bind(data, data.getHeight(MAX_BAR_HEIGHT));
+        BarData data = listData.get(holder.getLayoutPosition());
+        holder.bind(data);
     }
 
     @Override
@@ -80,17 +85,18 @@ public class BarGraphAdapter extends RecyclerView.Adapter<BarGraphAdapter.ViewHo
         return listData == null ? 0 : listData.size();
     }
 
-    public BarData getItem(int position) {
+    BarData getItem(int position) {
         return listData.get(position);
     }
 
-    public void setBarData(List<BarData> listData) {
-        this.listData = listData;
-        notifyDataSetChanged();
+    @Override
+    public int getItemViewType(int position) {
+        return 1;
     }
 
-    private void setAnimation(View viewToAnimate) {
-        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
-        viewToAnimate.startAnimation(animation);
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.itemView.clearAnimation();
     }
 }

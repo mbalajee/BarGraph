@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/textViewIndex"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/dp30"
         android:gravity="center"
         tools:text="267" />
 
@@ -31,7 +31,7 @@
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="@dimen/dp30"
         android:gravity="center"
         tools:text="1/21"/>
 

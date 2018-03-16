@@ -3,6 +3,7 @@ package in.learn.bargraph_sample;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         List<BarData> list = new ArrayList<>();
 
-        for (int i = 30; i > 0; i--) {
+        for (int i = 24; i > 0; i--) {
 
             int color;
 
-            if (i > 20) {
+            if (i > 10) {
                 color = Color.GREEN;
-            } else if (i > 10) {
+            } else if (i > 5) {
                 color = Color.RED;
             } else {
                 color = Color.CYAN;

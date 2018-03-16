@@ -1,6 +1,7 @@
 package in.learn.bargraph;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 /**
  * Created by balajim on 3/12/18.
@@ -13,6 +14,8 @@ public class BarData {
     private int index;
     private int color;
     private int height = -1;
+
+    byte animate = -1;
 
     public BarData(String date, float hours, int index, int color) {
         this.date = date;
@@ -34,15 +37,15 @@ public class BarData {
         return String.format("%d %s",(long) hours, 2.0 <= hours ? "hrs" : "hr");
     }
 
-    int getHeight(int maxHeight) {
+    int getHeight(int totalHeight) {
         if (height == -1) {
-            height = computeHeight(maxHeight);
+            height = computeHeight(totalHeight);
         }
         return height;
     }
 
-    private int computeHeight(int maxHeight) {
-        return Math.round(maxHeight - (maxHeight * (hours / 24)));
+    private int computeHeight(int totalHeight) {
+        return Math.round(totalHeight - (totalHeight * (hours / 24f)));
     }
 
     public int getColor() {
