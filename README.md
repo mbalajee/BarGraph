@@ -42,3 +42,7 @@ Currently supports only portrait orientation.  Download the aar file from reposi
 
         return list;
     }
+    
+  #### BarGraph in action
+
+![alt text](https://github.com/mbalajee/BarGraph/blob/master/bar_graph_sample.gif)
